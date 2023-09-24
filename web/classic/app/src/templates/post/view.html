@@ -1,0 +1,50 @@
+{% set page = "Home" %}
+{% extends 'base.html' %}
+
+{% block main %}
+<h2 class="row center">
+    Your Posts
+</h2>
+
+{% for post in posts %}
+<div class="row">
+    <div class="col s12 m10 offset-m1 l8 offset-l2">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">{{ post['title'] }}</span>
+                <p>{% autoescape false %} {{ post['content'] | replace('\n', '<br>') }} {% endautoescape %}</p>
+            </div>
+            <div class="card-action">
+                <form action="/posts/delete" method="POST" style="display: inline;">
+                    <input type="hidden" name="id" value="{{ post['id'] }}">
+                    <button type="submit" class="btn waves-effect waves-light red darken-4">
+                        <span class="left hide-on-small-and-down" style="margin-right: 15px;">Delete</span><i
+                            class="material-icons center">delete</i>
+                    </button>
+                </form>
+                <form action="/posts/share" method="POST" style="display: inline;">
+                    <input type="hidden" name="id" value="{{ post['id'] }}">
+                    <button type="submit" class="btn waves-effect waves-light teal darken-4">
+                        <span class="left hide-on-small-and-down" style="margin-right: 15px;">Share with admin</span><i
+                            class="material-icons center">share</i>
+                    </button>
+                </form>
+                <a class="btn waves-effect waves-light blue darken-4" href="{{ url_for('view_post', post_id=post['id']) }}">
+                    <span class="left hide-on-small-and-down" style="margin-right: 15px;">View</span><i
+                        class="material-icons center">pageview</i>
+                </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endfor %}
+{% if not posts %}
+<p class="row center">
+    You don't have any post yet.<br>
+    You can create a post <a href="{{ url_for('new_post') }}">here</a>.
+</p>
+
+{% endif %}
+{% endblock main %}

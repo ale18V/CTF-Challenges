@@ -1,0 +1,9 @@
+version: '2.0'
+
+services:
+  app:
+    build: .
+    env_file:
+      - flag.env
+    ports:
+      - "42693:80"

@@ -1,0 +1,5 @@
+src/**
+nginx.conf
+dockerfile
+compose.yml
+entrypoint.sh

@@ -1,0 +1,40 @@
+{% set current_page = "Report" %}
+{% extends 'base.jinja' %}
+
+{% block main %}
+    <h2 class="row center">
+        Report a page
+    </h2>
+    <p class="row center">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <b><strong>{{ category | capitalize }}</strong></b>: {{ message | lower }} <br>
+            {% endfor %}
+        {% else %}
+            You can report a page here.
+        {% endif %}
+    {% endwith %}
+    </p>
+
+    <div class="row">
+        <div class="col s12 m10 l8 xl6 offset-m1 offset-l2 offset-xl3">
+            <form action="" method="post">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="input-field">
+                            <input type="hidden" name="csrf" value="{{ session.get('csrf') }}">
+                            <input type="text" name="url" id="" placeholder="Enter your URL">
+                            <label for="url">URL</label>
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <button type="submit" class="btn waves-effect waves-light waves-block">
+                            Report <i class="material-icons right">report</i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock main %}

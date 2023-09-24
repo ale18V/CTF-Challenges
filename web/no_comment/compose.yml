@@ -1,0 +1,33 @@
+version: '3.0'
+
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "42692:80"
+    volumes:
+      - './src:/srv/app'
+      - './nginx.conf:/etc/nginx/nginx.conf'
+    links:
+      - phpfpm
+  phpfpm:
+    build: ./src 
+    environment:
+      - DBUSER=${DBUSER}
+      - DBPASS=${DBPASS}
+      - DBHOST=db
+      - DBSCHEMA=${DBSCHEMA}
+    volumes:
+      - './src:/srv/app'
+    links:
+      - db
+  db:
+    image: mysql:8.0
+    volumes:
+      - './db/init.sql:/docker-entrypoint-initdb.d/init.sql'
+    environment:
+      - MYSQL_USER=${DBUSER}
+      - MYSQL_PASSWORD=${DBPASS}
+      - MYSQL_DATABASE=${DBSCHEMA}
+      - MYSQL_RANDOM_ROOT_PASSWORD=y
+  

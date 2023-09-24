@@ -1,0 +1,53 @@
+{% set current_page = 'Post' %}
+{% extends 'base.jinja' %}
+
+{% block main %}
+<h2 class="row center">Make a new post</h2>
+<p class="row center">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <b><strong>{{ category | capitalize }}</strong></b>: {{ message | lower }} <br>
+        {% endfor %}
+    {% else %}
+        You can write a new post here.
+    {% endif %}
+
+    {% endwith %}
+</p>
+
+
+<div class="row">
+    <div class="col s12 m10 l8 xl6 offset-m1 offset-l2 offset-xl3">
+        <form action="" method="POST" class="card" enctype="multipart/form-data">
+            <div class="card-img" style="display: none; padding: 5%; padding-bottom: 0;" id="uploadedImage">
+                <img src="" alt="" class="responsive-img">
+            </div>
+            <div class="card-content">
+                <input type="hidden" name="csrf" value="{{ session.get('csrf') }}">
+                <div class="input-field">
+                    <input type="text" name="title" id="">
+                    <label for="title">Title</label>
+                </div>
+                <div class="input-field">
+                    <textarea name="content" id="" class="materialize-textarea"></textarea>
+                    <label for="content">Content</label>
+                </div>
+            </div>
+            <div class="card-action">
+                <a class="btn file-field">
+                    Image <i class="material-icons right">image</i>
+                    <input type="file" name="image" id="imageInput">
+                </a>
+                <button type="submit" class="btn waves-effect waves-light">
+                    Submit <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock main %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='javascript/image_previewer.js') }}"></script>
+{% endblock scripts %}

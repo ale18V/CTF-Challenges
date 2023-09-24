@@ -1,0 +1,6 @@
+flask
+flask-login
+flask-env
+gunicorn
+greenlet
+gunicorn[gevent]

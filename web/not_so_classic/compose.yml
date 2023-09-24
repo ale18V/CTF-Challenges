@@ -1,0 +1,20 @@
+version: '3.0'
+
+services:
+  classic:
+    build: ./app
+    env_file:
+      - .env
+      - app/app.env
+    ports:
+      - "${APP_SERVER_PORT}:${APP_SERVER_PORT}"
+    volumes:
+      - ./app/src/:/srv/app/src/
+      - ./app/run/:/srv/app/run/
+      - ./app/db/:/srv/app/db/
+  admin:
+    build: ./admin
+    env_file:
+      - .env
+      - admin/admin.env
+  

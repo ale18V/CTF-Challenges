@@ -1,0 +1,18 @@
+FROM python:3.10-slim
+
+COPY requirements.txt /tmp
+
+RUN apt-get update -y \
+    && apt-get install -y sqlite3 \
+    && apt-get clean -y \
+    && apt-get autoremove -y \
+    && pip3 install --no-cache-dir -r /tmp/requirements.txt \
+    && rm -rfd /tmp/* /var/lib/apt/lists/*
+
+WORKDIR /srv/app/
+COPY src ./src
+COPY run ./run
+COPY db ./db
+ENV PYTHONPYCACHEPREFIX=/tmp
+COPY entrypoint.sh .
+ENTRYPOINT [ "bash", "./entrypoint.sh" ]

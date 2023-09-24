@@ -1,0 +1,77 @@
+{% set current_page = "Home" %}
+{% extends 'base.jinja' %}
+
+{% block main %}
+<h2 class="row center">
+    Your Posts
+</h2>
+{% if posts %}
+<p class="row center">
+    You can click on a post to show its content. <br>
+    You can view the posts shared with you <a href="{{ url_for('post.view', shared=True) }}">here</a>. <br>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <b><strong>{{ category | capitalize }}</strong></b>: {{ message | lower }} <br>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+</p>
+
+
+
+<div class="row">
+    {% for post in posts %}
+    <div class="col s12 l6 xl4">
+        <div class="card sticky-action">
+            <div class="card-image waves-effect waves-light waves-block">
+                <img class="activator" src="{{ post.image.getHTMLPath() }}"
+                    onerror="this.src = `{{ url_for('static', filename='images/default.jpeg') }}`;"
+                    style="height: 300px;">
+                <span class="card-title truncate">{{ post.title }}</span>
+            </div>
+            <div class="card-action" style="border: none;">
+                <form id="share" action="{{ url_for('post.share') }}" method="POST" style="display: inline;">
+                    <input type="hidden" name="csrf" value="{{ session.get('csrf') }}">
+                    <input type="hidden" name="id" value="{{ post.id }}">
+                    <div class="input-field">
+                        <label for="recipient">Share with</label>
+                        <input type="text" name="recipient" id="">
+                    </div>
+                    <button type="submit" class="btn-flat waves-effect waves-light white-text teal darken-3">
+                        Share<i class="material-icons right">share</i>
+                    </button>
+                </form>
+
+                <form id="delete" action="{{ url_for('post.delete') }}" method="POST"
+                    style="display: inline;">
+                    <input type="hidden" name="csrf" value="{{ session.get('csrf') }}">
+                    <input type="hidden" name="id" value="{{ post.id }}">
+                    <button type="submit" class="btn-flat waves-effect waves-light white-text red darken-3">
+                        Delete<i class="material-icons right">delete</i>
+                    </button>
+                </form>
+
+
+            </div>
+            <div class="card-reveal">
+                <i class="material-icons card-title right">close</i>
+                <span class="card-title">{{ post.title }} </span>
+                <p style="overflow-wrap: break-word;">
+                    {% for line in post.content.split('\n') %}
+                    {{ line }}<br>
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="row center">
+    You don't have any post yet.<br>
+    You can create a post <a href="{{ url_for('post.new') }}">here</a>.
+</p>
+
+{% endif %}
+{% endblock main %}

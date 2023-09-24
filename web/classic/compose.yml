@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  classic:
+    build: ./app
+    env_file:
+      - .env 
+      - app/app.env
+    ports:
+      - '${CHALLENGE_PORT}:${CHALLENGE_PORT}'
+  admin:
+    build: ./admin
+    env_file:
+      - .env 
+      - admin/admin.env

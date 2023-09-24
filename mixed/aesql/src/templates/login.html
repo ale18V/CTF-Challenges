@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>
+    Login
+</h1>
+<p>
+    Insert your credentials
+</p>
+<form method="POST">
+    <input name="name" placeholder="username" type="text">
+    <input name="password" placeholder="password" type="text">
+    <input value="submit" type="submit">
+</form>
+{% endblock %}

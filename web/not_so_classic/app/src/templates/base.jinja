@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>The Classic - {{ current_page }}</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        nav ul li.active {
+            background-color: rgba(127, 127, 127, 0.2);
+        }
+    </style>
+    {% block head %}
+    {% endblock %}
+</head>
+
+<body class="grey lighten-5">
+    <header>
+        {% set pages = {
+        'Home': url_for('main.home'),
+        'Register': url_for('user.register'),
+        'Login': url_for('user.login'),
+        'Post': url_for('post.new'),
+        'Report': url_for('admin.report')
+        } %}
+        <nav id="nav-mobile" class="black white-text nav-wrapper">
+            <div class="container">
+                <a href="{{ url_for('main.home') }}" class="brand-logo">Classic</a>
+                <ul class="right">
+                    {% for page, href in pages.items() %}
+                    <li {% if page == current_page %} class="active" {% endif %}>
+                        <a href="{{ href }}">{{ page }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </nav>
+        {% block header %}
+
+        {% endblock header %}
+    </header>
+    <main class="container">
+        {% block main %}
+        {% endblock %}
+    </main>
+    <footer>
+    </footer>
+    {% block scripts %}
+
+    {% endblock scripts %}
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js" async defer></script>
+
+</body>
+
+</html>

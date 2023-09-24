@@ -1,0 +1,56 @@
+{% set current_page = "Home" %}
+{% extends 'base.jinja' %}
+
+{% block main %}
+<h2 class="row center">
+    Shared with you
+</h2>
+{% if posts %}
+<p class="row center">
+    You can click on a post to show its content. <br>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <b><strong>{{ category | capitalize }}</strong></b>: {{ message | lower }} <br>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+</p>
+
+
+
+<div class="row">
+    {% for post in posts %}
+    <div class="col s12 l6 xl4">
+        <div class="card sticky-action">
+            <div class="card-image waves-effect waves-light waves-block">
+                <img class="activator" src="{{ post.image.getHTMLPath() }}"
+                    onerror="this.src = `{{ url_for('static', filename='images/default.jpeg') }}`;"
+                    style="height: 300px;">
+                <span class="card-title truncate">{{ post.title }}</span>
+            </div>
+            <div class="card-action">
+                <p>
+                    Shared by {{ post.creator.username }}
+                </p>
+            </div>
+            <div class="card-reveal">
+                <i class="material-icons card-title right">close</i>
+                <span class="card-title">{{ post.title }} </span>
+                <p style="overflow-wrap: break-word;">
+                    {% for line in post.content.split('\n') %}
+                    {{ line }}<br>
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="row center">
+    Nobody has shared a post with you yet.<br>
+</p>
+
+{% endif %}
+{% endblock main %}

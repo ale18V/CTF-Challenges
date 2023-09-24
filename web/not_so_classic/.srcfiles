@@ -1,0 +1,5 @@
+app/**
+admin/
+admin/!(node_modules)
+compose.yml
+.env

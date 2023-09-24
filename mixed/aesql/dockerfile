@@ -1,0 +1,22 @@
+FROM ubuntu:latest
+
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y sqlite3 wget curl netcat \
+    && apt-get install -y python3 python3-pip 
+
+# Install requirements
+COPY src/requirements.txt /srv/app/
+RUN pip3 install --no-cache-dir -r /srv/app/requirements.txt
+
+WORKDIR /srv/app/
+
+# Copy source code
+COPY src .
+
+# Init DB
+COPY db/init.sql .
+RUN sqlite3 app.db < init.sql
+ENV DB_PATH="/srv/app/app.db"
+
+ENTRYPOINT [ "python3", "app.py" ]

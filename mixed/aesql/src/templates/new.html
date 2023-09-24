@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>New Task</h1>
+<p>
+    You can create a new task.<br>
+    Insert the title and the content of the task.
+</p>
+<form method="POST">
+    <input name="title" placeholder="title" type="text">
+    <input name="content" placeholder="content" type="text">
+    <input value="submit" type="submit">
+</form>
+{% endblock %}

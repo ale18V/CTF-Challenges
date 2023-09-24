@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+    {% if username %}
+    <a href="{{url_for('new')}}">New Task</a>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    {% if username %}
+        <h1>
+            Hello {{username}}
+        </h1>
+        <p>
+            Make a new task <a href="{{url_for('new')}}">here</a>. <br>
+            Here are your already existing tasks:
+        </p>
+        {% if tasks %}
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th>Completed</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for task in tasks %}
+                <tr>
+                    <td>{{ task['title'] }}</td>
+                    <td>{{ task['content'] }}</td>
+                    <td>
+                        <input type="checkbox" name="completed" 
+                        onclick="fetch(`{{ url_for('update_task_completed', id=task['id']) }}`, {method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: `completed=${this.checked}`})">
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    {% else %}
+        <h1>
+            Welcome to AESQL!
+        </h1>
+        <p>
+            Create an account to get started.
+        </p>
+    {% endif %}
+
+{% endblock %}
